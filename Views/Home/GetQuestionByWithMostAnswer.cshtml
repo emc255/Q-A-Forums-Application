@@ -1,0 +1,20 @@
+﻿@model CourseProject_StackOverFlowV2.Models.QuestionMostReplyViewModel
+@{
+    ViewBag.Title = "GetQuestionByWithMostAnswer";
+}
+
+<h2>Get Question By With MostAnswer</h2>
+<p>
+    BY: @Model.UserName
+    <span> &nbsp; &nbsp; &nbsp;</span>
+    Date Created: @Model.DateTime
+    <span> &nbsp; &nbsp; &nbsp;</span>
+    Total Answer: @Model.Replies
+</p>
+<p>
+    TITLE: @Model.Title
+    <span> &nbsp; &nbsp; &nbsp;</span>
+</p>
+<p>Description</p>
+<p>@Model.Context</p>
+

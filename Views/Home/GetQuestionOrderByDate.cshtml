@@ -1,0 +1,21 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<CourseProject_StackOverFlowV2.Models.AllQuestionOrderByDateViewModel>
+<br />
+<br />
+@foreach (var question in Model) {
+    <p>
+        BY: @question.UserName
+        <span> &nbsp; &nbsp; &nbsp;</span>
+        Date Created: @question.DateTime
+    </p>
+    <p>
+        TITLE: @question.Title
+        <span> &nbsp; &nbsp; &nbsp;</span>
+    </p>
+    <p>Description</p>
+    <p>@question.Context</p>
+}
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("GetQuestionOrderByDate", new { page, searchBy = Request.QueryString["seacrhBy"], search = Request.QueryString["search"] }))
+</div>

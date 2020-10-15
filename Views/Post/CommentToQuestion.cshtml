@@ -1,0 +1,17 @@
+﻿
+
+<h2>Comment To Question</h2>
+<p>@ViewBag.formError</p>
+<br />
+<br />
+@using (Html.BeginForm()) {
+    <p>Title: @ViewBag.title</p>
+    <p>By: @ViewBag.userName</p>
+    <p>Description</p>
+    <p>@ViewBag.description</p>
+    <br />
+    <br />
+    <p>Answer: @Html.TextArea("context")</p>
+    <input type="submit" value="Add" />
+}
+

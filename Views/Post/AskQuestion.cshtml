@@ -1,0 +1,20 @@
+﻿
+<h2>Ask Question</h2>
+<p>@ViewBag.formError</p>
+@using (Html.BeginForm()) {
+    <p>Date: @DateTime.Now</p>
+    <p>Title: @Html.TextBox("title")</p>
+    <p>Question Description: @Html.TextArea("context")</p>
+    <p>
+        Add Tag: @Html.DropDownList("tagId")
+        <span> &nbsp;</span>
+        Add Tag: @Html.DropDownList("tagId2")
+        <span> &nbsp;</span>
+        Add Tag: @Html.DropDownList("tagId3")
+        <span> &nbsp;</span>
+        Add Tag: @Html.DropDownList("tagId4")
+    </p>
+    
+    <input type="submit" value="Add" />
+}
+

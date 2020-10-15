@@ -1,0 +1,146 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<CourseProject_StackOverFlowV2.Models.Question>
+<br />
+<br />
+@foreach (var question in Model) {
+
+    <p>
+        @if (question.User.Reputation > 0) {
+            <span>BY: <span>(@question.User.Reputation)&nbsp;</span>@question.User.UserName</span>
+        } else {
+            <span>BY: @question.User.UserName </span>
+        }
+        <span> &nbsp; &nbsp; &nbsp;</span>
+        <span>
+            @Html.ActionLink("UpVote", "AddUpVoteQuestion", "Home",
+            new {
+            questionId = question.Id,
+            searchBy = Request.QueryString["seacrhBy"],
+            page = Request.QueryString["page"],
+            tagId = Request.QueryString["tagId"]
+                 },
+            null)
+        </span>
+        <span> &nbsp;</span>
+        <span>@question.TotalVote</span>
+        <span> &nbsp;</span>
+        <span>
+            @Html.ActionLink("DownVote", "AddDownVoteQuestion", "Home",
+            new {
+                questionId = question.Id,
+                searchBy = Request.QueryString["seacrhBy"],
+                page = Request.QueryString["page"],
+                tagId = Request.QueryString["tagId"]
+                },
+            null)
+        </span>
+        <span> &nbsp; &nbsp;</span>
+    </p>
+    <p>TITLE: @question.Title</p>
+    <p>DATE CREATED: @question.DateTime</p>
+    <p>DESCRIPTION</p>
+    if (question.QuestionTags.Count > 0) {
+        <p>
+            @foreach (var tag in question.QuestionTags) {
+                @Html.ActionLink((string)tag.Tag.Name, "QuestionByTagName", "Home", new { tagId = tag.Tag.Id }, null)<span>&nbsp;</span>
+            }
+        </p>
+    }
+    <p>@question.Context</p>
+    if (question.Answers.Count > 0) {
+        <p>ANSWERS</p>
+        <ul>
+            @foreach (var answer in question.Answers) {
+                <li>
+                    <p>
+                        @if (answer.User.Reputation > 0) {
+                            <span>BY: <span>(@answer.User.Reputation)&nbsp;</span>@answer.User.UserName</span>
+                        } else {
+                            <span>BY: @answer.User.UserName </span>
+                        }
+                        <span> &nbsp; &nbsp; &nbsp;</span>
+                        <span>
+                            @Html.ActionLink("UpVote", "AddUpVoteAnswer", "Home",
+                            new {
+                                answerId = answer.Id,
+                                searchBy = Request.QueryString["seacrhBy"],
+                                page = Request.QueryString["page"],
+                                tagId = Request.QueryString["tagId"]
+                                 },
+                            null)
+                        </span>
+                        <span> &nbsp;</span>
+                        <span>@answer.TotalVote</span>
+                        <span> &nbsp;</span>
+                        <span>
+                            @Html.ActionLink("DownVote", "AddDownVoteAnswer", "Home",
+                            new {
+                                answerId = answer.Id,
+                                searchBy = Request.QueryString["seacrhBy"],
+                                page = Request.QueryString["page"],
+                                tagId = Request.QueryString["tagId"]
+                                },
+                            null)
+                        </span>
+                        <span> &nbsp; &nbsp;</span>
+                    </p>
+                    <p>@answer.Context</p>
+                    @if (answer.AnswerComments.Count > 0) {
+                        <p>Comments</p>
+                        <ul>
+                            @foreach (var comment in answer.AnswerComments) {
+                                <li>
+                                    <p>
+                                        @if (comment.User.Reputation > 0) {
+                                            <span>BY: <span>(@comment.User.Reputation)&nbsp;</span>@comment.User.UserName</span>
+                                        } else {
+                                            <span>BY: @comment.User.UserName </span>
+                                        }
+                                    </p>
+                                    <p>@comment.Context</p>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    <p>@Html.ActionLink("Comment", "CommentToAnswer", "Post", new { answerId = answer.Id }, null)</p>
+                </li>
+
+            }
+        </ul>
+    }
+    if (question.QuestionComments.Count > 0) {
+        <p>COMMENTS</p>
+        <ul>
+            @foreach (var comment in question.QuestionComments) {
+                <li>
+                    <p>
+                        @if (comment.User.Reputation > 0) {
+                            <span>BY: <span>(@comment.User.Reputation)&nbsp;</span>@comment.User.UserName</span>
+                        } else {
+                            <span>BY: @comment.User.UserName </span>
+                        }
+                    </p>
+                    <p>@comment.Context</p>
+                </li>
+            }
+        </ul>
+    }
+
+    <p>
+        @Html.ActionLink("Answer", "AnswerQuestion", "Post", new { questionId = question.Id }, null)
+        <span> &nbsp;</span>
+        @Html.ActionLink("Comment", "CommentToQuestion", "Post", new { questionId = question.Id }, null)
+    </p>
+
+    <br />
+    <br />
+}
+
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("QuestionByTagName", new { page, searchBy = Request.QueryString["seacrhBy"], tagId = Request.QueryString["tagId"] }),
+    new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded }
+
+)
+</div>
